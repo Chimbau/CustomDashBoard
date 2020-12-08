@@ -8,7 +8,7 @@
 
 body{
     background-color: #8BC6EC;
-    background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+    background-image: linear-gradient(90deg, #8BC6EC 0%, #5a60cc 100%);
     min-height: 100vh;
 }
 
@@ -16,7 +16,8 @@ h1{
     text-align: center;
     color: rgb(255, 255, 255);
     font-size: 35px;
-    margin: 40px;
+    margin-top: 50px;
+    text-shadow: 2px 2px #000000;
 }
 
 .main-container{
@@ -38,6 +39,12 @@ h1{
     
 }
 
+.current-date{
+    margin: 0;
+    margin: 20px 0;
+    font-size: 1.5rem;
+}
+
 .todo-form{
     display: flex;
     justify-content: center;
@@ -46,7 +53,8 @@ h1{
 }
 
 .add-button{
-    border: none;
+    border-style: solid;
+    border-width: 2px;
     padding: 10px;
     font-size: 20px;
     background-color: aliceblue;
@@ -71,7 +79,7 @@ h1{
 }
 
 .todo-list{
-    min-width: 30vw;
+    min-width: 35vw;
     list-style: none;
 }
 
@@ -86,6 +94,7 @@ h1{
 .todo-item{ 
     padding: 0.5rem;
     flex: 1;
+    transition: 0.5s;
 }
 
 .complete-button, .delete-button{
