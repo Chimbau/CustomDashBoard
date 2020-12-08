@@ -4,6 +4,7 @@ const addButton = document.querySelector(".add-button")
 const formInput = document.querySelector(".form-input")
 
 //Event Listernners
+document.addEventListener("DOMContentLoaded", createCalendar)
 document.addEventListener("DOMContentLoaded", getTodos)
 addButton.addEventListener('click', addTodo)
 todoList.addEventListener('click', removeTodo)
@@ -11,18 +12,23 @@ todoList.addEventListener('click', removeTodo)
 //Functions
 function addTodo(event){
     event.preventDefault()
+    //DIV
     const todoDiv = document.createElement("div")
     todoDiv.classList.add("todo-div")
+    //LI
     const todoLi = document.createElement("li")
     todoLi.classList.add("todo-item")
     todoLi.innerText = formInput.value
     saveTodosInStorage(formInput.value)
+    //COMPLETE BUTTON
     const completeButton = document.createElement("Button")
     completeButton.innerText = "C"
     completeButton.classList.add("complete-button")
+    //DELETE BUTTON
     const deleteButton = document.createElement("Button")
     deleteButton.innerText = "X"
     deleteButton.classList.add("delete-button")
+
     todoDiv.appendChild(todoLi)
     todoDiv.appendChild(completeButton)
     todoDiv.appendChild(deleteButton)
@@ -96,6 +102,22 @@ function getTodos(){
     }
 }
 
+
+function createCalendar(){
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        dateClick: function (info) {
+            inputDate(info)
+        },
+        selectable: true
+    });
+    calendar.render();
+}
+
+function inputDate(dateInfo){
+    formInput.value = dateInfo.dateStr
+}
 
 
 
