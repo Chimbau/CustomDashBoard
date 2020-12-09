@@ -14,41 +14,43 @@ document.addEventListener("DOMContentLoaded", loadTodosFromStorage)
 addButton.addEventListener('click', addTodo)
 todoList.addEventListener('click', todoClick)
 
-
 //Functions
 function addTodo(event) {
     event.preventDefault()
-    //DIV
-    const todoDiv = document.createElement("div")
-    todoDiv.classList.add("todo-div")
-    //LI
-    const todoLi = document.createElement("li")
-    todoLi.classList.add("todo-item")
-    todoLi.innerText = formInput.value
-    //SAVE IN STORAGE
-    todoObject = {
-        date: currentDate.innerText,
-        todo: {
-            text: formInput.value,
-            completed: false
+    if (formInput.value != "") {
+        //DIV
+        const todoDiv = document.createElement("div")
+        todoDiv.classList.add("todo-div")
+        //LI
+        const todoLi = document.createElement("li")
+        todoLi.classList.add("todo-item")
+        todoLi.innerText = formInput.value
+        //SAVE IN STORAGE
+        todoObject = {
+            date: currentDate.innerText,
+            todo: {
+                text: formInput.value,
+                completed: false
+            }
         }
-    }
-    saveNewTodo(todoObject)
-    addCalendarEvent(currentDate.innerText)
-    //COMPLETE BUTTON
-    const completeButton = document.createElement("Button")
-    completeButton.innerText = "C"
-    completeButton.classList.add("complete-button")
-    //DELETE BUTTON
-    const deleteButton = document.createElement("Button")
-    deleteButton.innerText = "X"
-    deleteButton.classList.add("delete-button")
+        saveNewTodo(todoObject)
+        addCalendarEvent(currentDate.innerText)
+        //COMPLETE BUTTON
+        const completeButton = document.createElement("Button")
+        completeButton.innerHTML = '<i class="fas fa-check"></i'
+        completeButton.classList.add("complete-button")
+        //DELETE BUTTON
+        const deleteButton = document.createElement("Button")
+        deleteButton.innerHTML = '<i class="fas fa-times"></i>'
+        deleteButton.classList.add("delete-button")
 
-    todoDiv.appendChild(todoLi)
-    todoDiv.appendChild(completeButton)
-    todoDiv.appendChild(deleteButton)
-    todoList.appendChild(todoDiv)
-    formInput.value = null
+        todoDiv.appendChild(todoLi)
+        todoDiv.appendChild(completeButton)
+        todoDiv.appendChild(deleteButton)
+        todoList.appendChild(todoDiv)
+        formInput.value = null
+    }
+
 }
 
 function todoClick(event) {
@@ -58,19 +60,18 @@ function todoClick(event) {
         todoItem.remove()
     }
     else if (event.target.classList[0] === "complete-button") {
-        console.log(event.target)
         const todoItem = event.target.parentElement
         const todotext = todoItem.querySelector(".todo-item").innerText
         todoItem.querySelector(".todo-item").classList.toggle("completed")
-        
+
         let todos = JSON.parse(localStorage.getItem("todos"))
         todos.forEach(todoObject => {
-            if(todoObject.date === currentDate.innerText && todotext === todoObject.todo.text){
+            if (todoObject.date === currentDate.innerText && todotext === todoObject.todo.text) {
                 todoObject.todo.completed = !todoObject.todo.completed
             }
         });
         localStorage.setItem("todos", JSON.stringify(todos))
-        
+
     }
 }
 
@@ -87,7 +88,6 @@ function saveNewTodo(todo) {
 }
 
 function removeTodoFromStorage(todo) {
-    console.log(todo)
     let todos
     if (localStorage.getItem("todos") === null) {
         todos = []
@@ -97,7 +97,7 @@ function removeTodoFromStorage(todo) {
     }
     let todoIndex = 0;
     todos.forEach(todoObject => {
-        if(todoObject.date === currentDate.innerText && todo === todoObject.todo.text){
+        if (todoObject.date === currentDate.innerText && todo === todoObject.todo.text) {
             todoIndex = todos.indexOf(todoObject)
         }
     });
@@ -106,7 +106,7 @@ function removeTodoFromStorage(todo) {
     removeCalendarEvent(currentDate.innerText)
 }
 
-function loadCurrentDate(){
+function loadCurrentDate() {
     let date = new Date();
     currentDate.innerText = date.toISOString().substring(0, 10);
 }
@@ -134,16 +134,16 @@ function setTodos(todos) {
             const todoLi = document.createElement("li")
             todoLi.classList.add("todo-item")
             todoLi.innerText = todo.todo.text
-            if(todo.todo.completed){
+            if (todo.todo.completed) {
                 todoLi.classList.add("completed")
             }
             //COMPLETE BUTTON
             const completeButton = document.createElement("Button")
-            completeButton.innerText = "C"
+            completeButton.innerHTML = '<i class="fas fa-check"></i'
             completeButton.classList.add("complete-button")
             //DELETE BUTTON
             const deleteButton = document.createElement("Button")
-            deleteButton.innerText = "X"
+            deleteButton.innerHTML = '<i class="fas fa-times"></i>'
             deleteButton.classList.add("delete-button")
             todoDiv.appendChild(todoLi)
             todoDiv.appendChild(completeButton)
@@ -166,7 +166,7 @@ function createCalendar() {
     });
     loadEvents();
     calendar.render();
-    
+
 }
 
 function loadDay(dateInfo) {
@@ -174,7 +174,7 @@ function loadDay(dateInfo) {
     loadTodosFromStorage()
 }
 
-function addCalendarEvent(date){
+function addCalendarEvent(date) {
     calendar.addEvent({
         id: date,
         title: `Tarefas`,
@@ -185,36 +185,34 @@ function addCalendarEvent(date){
     saveEvents()
 }
 
-function removeCalendarEvent(date){
+function removeCalendarEvent(date) {
     const events = calendar.getEvents()
 
     //remove it from calendar
-    if(calendar.getEventById(date)){
+    if (calendar.getEventById(date)) {
         calendar.getEventById(date).remove()
-    } 
+    }
 
     //remove it from local storage 
-    console.log(events)
     let eventIndex = 0
     events.forEach(event => {
-        if(event.id === date){
+        if (event.id === date) {
             eventIndex = events.indexOf(event)
         }
     });
     events.splice(eventIndex, 1)
-    console.log(events)
     localStorage.setItem("events", JSON.stringify(events))
 }
 
-function saveEvents(){
+function saveEvents() {
     const events = calendar.getEvents()
     localStorage.setItem('events', JSON.stringify(events))
 }
 
-function loadEvents(){
+function loadEvents() {
     const events = JSON.parse(localStorage.getItem("events"))
 
-    if(events){
+    if (events) {
         events.forEach(event => {
             calendar.addEvent(event)
         });
