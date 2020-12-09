@@ -4,6 +4,9 @@ const addButton = document.querySelector(".add-button")
 const formInput = document.querySelector(".form-input")
 const currentDate = document.querySelector(".current-date")
 
+//Calendar variable
+var calendar;
+
 //Event Listernners
 document.addEventListener("DOMContentLoaded", createCalendar)
 document.addEventListener("DOMContentLoaded", loadCurrentDate)
@@ -22,6 +25,7 @@ function addTodo(event) {
     const todoLi = document.createElement("li")
     todoLi.classList.add("todo-item")
     todoLi.innerText = formInput.value
+    //SAVE IN STORAGE
     todoObject = {
         date: currentDate.innerText,
         todo: {
@@ -30,6 +34,7 @@ function addTodo(event) {
         }
     }
     saveNewTodo(todoObject)
+    addCalendarEvent(currentDate.innerText)
     //COMPLETE BUTTON
     const completeButton = document.createElement("Button")
     completeButton.innerText = "C"
@@ -98,6 +103,7 @@ function removeTodoFromStorage(todo) {
     });
     todos.splice(todoIndex, 1)
     localStorage.setItem("todos", JSON.stringify(todos))
+    removeCalendarEvent(currentDate.innerText)
 }
 
 function loadCurrentDate(){
@@ -151,19 +157,68 @@ function setTodos(todos) {
 
 function createCalendar() {
     var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+    calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         dateClick: function (info) {
             loadDay(info)
         },
-        selectable: true
+        selectable: true,
     });
+    loadEvents();
     calendar.render();
+    
 }
 
 function loadDay(dateInfo) {
     currentDate.innerText = dateInfo.dateStr
     loadTodosFromStorage()
+}
+
+function addCalendarEvent(date){
+    calendar.addEvent({
+        id: date,
+        title: `Tarefas`,
+        start: date,
+        display: 'background',
+        backgroundColor: 'green'
+    });
+    saveEvents()
+}
+
+function removeCalendarEvent(date){
+    const events = calendar.getEvents()
+
+    //remove it from calendar
+    if(calendar.getEventById(date)){
+        calendar.getEventById(date).remove()
+    } 
+
+    //remove it from local storage 
+    console.log(events)
+    let eventIndex = 0
+    events.forEach(event => {
+        if(event.id === date){
+            eventIndex = events.indexOf(event)
+        }
+    });
+    events.splice(eventIndex, 1)
+    console.log(events)
+    localStorage.setItem("events", JSON.stringify(events))
+}
+
+function saveEvents(){
+    const events = calendar.getEvents()
+    localStorage.setItem('events', JSON.stringify(events))
+}
+
+function loadEvents(){
+    const events = JSON.parse(localStorage.getItem("events"))
+
+    if(events){
+        events.forEach(event => {
+            calendar.addEvent(event)
+        });
+    }
 }
 
 
