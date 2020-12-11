@@ -4,10 +4,11 @@
     <link rel="stylesheet" href="style.css">
     </link>
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+        crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link href='node_modules/fullcalendar/main.css' rel='stylesheet' />
-
 </head>
 
 <body>
@@ -15,24 +16,67 @@
         <i class="fas fa-clipboard-list"></i>
         <h1>Depressed Dashboard</h1>
     </div>
-    <div class="main-container">
-        <div id='calendar' class="calendarDiv"></div>
-        <div class="todoContainer">
-            <h1 class="todo-header">To do list</h1>
-            <h1 class="current-date"></h1>
-            <form class="todo-form">
-                <input type="text" class="form-input">
-                <button type="submit" class="add-button">
-                    <i class="fas fa-plus"></i>
-                </button>
-               
-            </form>
-            <div class="list-container">
-                <ul class="todo-list">
-                </ul>
+    <div class="container">
+        <!-- <nav class="side-navbar">
+            <ul class="navbar-list">
+                <li>
+                    <button class="navbar-button">
+                        <i class="fas fa-arrow-right"></i>
+                    </button> 
+                </li>
+                <li>
+                    <button class="navbar-button">
+                        <i class="fas fa-arrow-right"></i>
+                        <span>Pre-built tasks</span>
+                    </button> 
+                </li>
+            </ul>     
+        </nav> -->
+        <div class="main-container">
+            <div id='calendar' class="calendarDiv"></div>
+            <div class="todoContainer">
+                <h1 class="todo-header">To do list</h1>
+                <h1 class="current-date"></h1>
+                <form class="todo-form">
+                    <input type="text" class="form-input">
+                    <button type="submit" class="add-button">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button type="submit" class="show-prebuilt-button">
+                        <i class="fas fa-arrow-down"></i>
+                    </button>
+                </form>
+                <div class="prebuilt-container">
+                    <ul>
+                        <li id="tasks-list-header">Pre-built tasks</li>
+                        <li>
+                            <span>Wani kani lessons</span>
+                            <button class="add-prebuilt-task">
+                                <i class="fas fa-plus"></i>
+                            </button>        
+                        </li>
+                        <li>
+                            <span>Progresso em um projeto web</span>
+                            <button class="add-prebuilt-task">
+                                <i class="fas fa-plus"></i>
+                            </button>  
+                        </li>
+                        <li>
+                            <span>Treinar digitação</span>
+                            <button class="add-prebuilt-task">
+                                <i class="fas fa-plus"></i>
+                            </button>  
+                        </li>
+                    </ul>
+                </div>
+                <div class="list-container">
+                    <ul class="todo-list">
+                    </ul>
+                </div>
             </div>
-        </div>    
+        </div>
     </div>
+
     <script src="script.js"></script>
     <script src='node_modules/fullcalendar/main.js'></script>
 </body>

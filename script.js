@@ -1,8 +1,13 @@
 //Selectors
 const todoList = document.querySelector(".todo-list")
 const addButton = document.querySelector(".add-button")
+const showPrebuiltButton = document.querySelector(".show-prebuilt-button")
+const preBuiltContainer = document.querySelector(".prebuilt-container")
+//const navBarButton = document.querySelector(".navbar-button")
+const sideNavBar = document.querySelector(".side-navbar")
 const formInput = document.querySelector(".form-input")
 const currentDate = document.querySelector(".current-date")
+const addPreBuiltButtons = document.querySelectorAll(".add-prebuilt-task")
 
 //Calendar variable
 var calendar;
@@ -12,24 +17,37 @@ document.addEventListener("DOMContentLoaded", createCalendar)
 document.addEventListener("DOMContentLoaded", loadCurrentDate)
 document.addEventListener("DOMContentLoaded", loadTodosFromStorage)
 addButton.addEventListener('click', addTodo)
+showPrebuiltButton.addEventListener('click', showPrebuilt)
+addPreBuiltButtons.forEach(button => {
+    button.addEventListener('click', addTodo)
+})
 todoList.addEventListener('click', todoClick)
+//navBarButton.addEventListener('click', toggleNavbar)
 
 //Functions
 function addTodo(event) {
     event.preventDefault()
-    if (formInput.value != "") {
+    let todoText = ""
+    if(event.target.classList[0] === "add-button" && formInput.value != ""){
+        todoText = formInput.value
+    }
+    else if (event.target.classList[0] === "add-prebuilt-task"){
+        todoText = event.target.previousElementSibling.innerText
+    }
+
+    if (todoText != "") {
         //DIV
         const todoDiv = document.createElement("div")
         todoDiv.classList.add("todo-div")
         //LI
         const todoLi = document.createElement("li")
         todoLi.classList.add("todo-item")
-        todoLi.innerText = formInput.value
+        todoLi.innerText = todoText    
         //SAVE IN STORAGE
         todoObject = {
             date: currentDate.innerText,
             todo: {
-                text: formInput.value,
+                text: todoText,
                 completed: false
             }
         }
@@ -71,7 +89,6 @@ function todoClick(event) {
             }
         });
         localStorage.setItem("todos", JSON.stringify(todos))
-
     }
 }
 
@@ -218,6 +235,22 @@ function loadEvents() {
         });
     }
 }
+
+function showPrebuilt(event){
+    event.preventDefault()
+    preBuiltContainer.classList.toggle("showContainer")
+}
+
+
+//Navbar functions
+function toggleNavbar(){
+    sideNavBar.classList.toggle("show-navbar")
+    sideNavBar.addEventListener('transitionend', function(){
+        calendar.updateSize()
+    })
+    
+}
+
 
 
 
