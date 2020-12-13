@@ -128,6 +128,17 @@ button{
     margin: 0;
     margin: 20px 0;
     font-size: 1.5rem;
+    
+}
+
+@keyframes popAnimation{
+   from {transform: scale(0.8)}
+   to {transform: scale(1)}
+}
+
+.date-animation{
+    animation-name: popAnimation;
+    animation-duration: 0.2s;
 }
 
 .todo-form{

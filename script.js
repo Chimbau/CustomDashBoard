@@ -177,9 +177,14 @@ function createCalendar() {
     calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         dateClick: function (info) {
-            loadDay(info)
+            loadDay(info),
+            currentDate.classList.toggle("date-animation")
+            currentDate.addEventListener('animationend', function(){
+                currentDate.classList.remove("date-animation")
+            })
         },
         selectable: true,
+        unselectAuto: false
     });
     loadEvents();
     calendar.render();
