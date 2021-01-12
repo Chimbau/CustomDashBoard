@@ -8,7 +8,7 @@
         integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
         crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link href='node_modules/fullcalendar/main.css' rel='stylesheet' />
+    <link href='../node_modules/fullcalendar/main.css' rel='stylesheet' />
 </head>
 
 <body>
@@ -17,21 +17,6 @@
         <h1>Depressed Dashboard</h1>
     </div>
     <div class="container">
-        <!-- <nav class="side-navbar">
-            <ul class="navbar-list">
-                <li>
-                    <button class="navbar-button">
-                        <i class="fas fa-arrow-right"></i>
-                    </button> 
-                </li>
-                <li>
-                    <button class="navbar-button">
-                        <i class="fas fa-arrow-right"></i>
-                        <span>Pre-built tasks</span>
-                    </button> 
-                </li>
-            </ul>     
-        </nav> -->
         <div class="main-container">
             <div id='calendar' class="calendarDiv"></div>
             <div class="todoContainer">
@@ -67,6 +52,18 @@
                                 <i class="fas fa-plus"></i>
                             </button>  
                         </li>
+                        <li>
+                            <span>Treinar exercícios de programação no hackerrank</span>
+                            <button class="add-prebuilt-task">
+                                <i class="fas fa-plus"></i>
+                            </button>  
+                        </li>
+                        <li>
+                            <span>Progresso no curso de desenvolvimento web</span>
+                            <button class="add-prebuilt-task">
+                                <i class="fas fa-plus"></i>
+                            </button>  
+                        </li>
                     </ul>
                 </div>
                 <div class="list-container">
@@ -76,9 +73,9 @@
             </div>
         </div>
     </div>
-
+    <script src='../node_modules/fullcalendar/main.js'></script>
     <script src="script.js"></script>
-    <script src='node_modules/fullcalendar/main.js'></script>
+    
 </body>
 
 </html>

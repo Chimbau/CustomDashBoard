@@ -3,7 +3,6 @@ const todoList = document.querySelector(".todo-list")
 const addButton = document.querySelector(".add-button")
 const showPrebuiltButton = document.querySelector(".show-prebuilt-button")
 const preBuiltContainer = document.querySelector(".prebuilt-container")
-//const navBarButton = document.querySelector(".navbar-button")
 const sideNavBar = document.querySelector(".side-navbar")
 const formInput = document.querySelector(".form-input")
 const currentDate = document.querySelector(".current-date")
@@ -13,37 +12,79 @@ const addPreBuiltButtons = document.querySelectorAll(".add-prebuilt-task")
 var calendar;
 
 //Event Listernners
+
+//Called when page is loaded
 document.addEventListener("DOMContentLoaded", createCalendar)
 document.addEventListener("DOMContentLoaded", loadCurrentDate)
 document.addEventListener("DOMContentLoaded", loadTodosFromStorage)
+
+//Called when a button is clicked
 addButton.addEventListener('click', addTodo)
 showPrebuiltButton.addEventListener('click', showPrebuilt)
 addPreBuiltButtons.forEach(button => {
     button.addEventListener('click', addTodo)
 })
 todoList.addEventListener('click', todoClick)
-//navBarButton.addEventListener('click', toggleNavbar)
+
 
 //Functions
+
+
+function createToDo(todoText, completed) {
+    //DIV
+    const todoDiv = document.createElement("div")
+    todoDiv.classList.add("todo-div")
+    //LI
+    const todoLi = document.createElement("li")
+    todoLi.classList.add("todo-item")
+    todoLi.innerText = todoText
+    if (completed) {
+        todoLi.classList.add("completed")
+    }
+    //COMPLETE BUTTON
+    const completeButton = document.createElement("Button")
+    completeButton.innerHTML = '<i class="fas fa-check"></i'
+    completeButton.classList.add("complete-button")
+    //DELETE BUTTON
+    const deleteButton = document.createElement("Button")
+    deleteButton.innerHTML = '<i class="fas fa-times"></i>'
+    deleteButton.classList.add("delete-button")
+
+    todoDiv.appendChild(todoLi)
+    todoDiv.appendChild(completeButton)
+    todoDiv.appendChild(deleteButton)
+    todoList.appendChild(todoDiv)
+    formInput.value = null
+}
+
 function addTodo(event) {
     event.preventDefault()
     let todoText = ""
-    if(event.target.classList[0] === "add-button" && formInput.value != ""){
+    if (event.target.classList[0] === "add-button" && formInput.value != "") {
         todoText = formInput.value
     }
-    else if (event.target.classList[0] === "add-prebuilt-task"){
+    else if (event.target.classList[0] === "add-prebuilt-task") {
         todoText = event.target.previousElementSibling.innerText
     }
 
-    if (todoText != "") {
-        //DIV
-        const todoDiv = document.createElement("div")
-        todoDiv.classList.add("todo-div")
-        //LI
-        const todoLi = document.createElement("li")
-        todoLi.classList.add("todo-item")
-        todoLi.innerText = todoText    
-        //SAVE IN STORAGE
+    //Check if its already in toDo List
+    let tasksStorage = JSON.parse(localStorage.getItem("tasksStorage"))
+    let storageTodos = tasksStorage[currentDate.innerText]
+    let inList = false
+
+    if (storageTodos) {
+        storageTodos.forEach(todoObject => {
+            if (todoObject.todo.text === todoText) {
+                inList = true
+            }
+        })
+    }
+
+    if (todoText != "" && !inList) {
+        //Create toDo item
+        createToDo(todoText)
+
+        //SAVE IN STORAGE AND ADD CALENDAR EVENT
         todoObject = {
             date: currentDate.innerText,
             todo: {
@@ -53,20 +94,6 @@ function addTodo(event) {
         }
         saveNewTodo(todoObject)
         addCalendarEvent(currentDate.innerText)
-        //COMPLETE BUTTON
-        const completeButton = document.createElement("Button")
-        completeButton.innerHTML = '<i class="fas fa-check"></i'
-        completeButton.classList.add("complete-button")
-        //DELETE BUTTON
-        const deleteButton = document.createElement("Button")
-        deleteButton.innerHTML = '<i class="fas fa-times"></i>'
-        deleteButton.classList.add("delete-button")
-
-        todoDiv.appendChild(todoLi)
-        todoDiv.appendChild(completeButton)
-        todoDiv.appendChild(deleteButton)
-        todoList.appendChild(todoDiv)
-        formInput.value = null
     }
 
 }
@@ -82,93 +109,93 @@ function todoClick(event) {
         const todotext = todoItem.querySelector(".todo-item").innerText
         todoItem.querySelector(".todo-item").classList.toggle("completed")
 
-        let todos = JSON.parse(localStorage.getItem("todos"))
+        let tasksStorage = JSON.parse(localStorage.getItem("tasksStorage"))
+        let todos = tasksStorage[currentDate.innerText]
+
         todos.forEach(todoObject => {
-            if (todoObject.date === currentDate.innerText && todotext === todoObject.todo.text) {
+            if (todotext === todoObject.todo.text) {
                 todoObject.todo.completed = !todoObject.todo.completed
             }
         });
-        localStorage.setItem("todos", JSON.stringify(todos))
+        tasksStorage[currentDate.innerText] = todos
+        localStorage.setItem("tasksStorage", JSON.stringify(tasksStorage))
     }
 }
 
 function saveNewTodo(todo) {
-    let todos
-    if (localStorage.getItem("todos") === null) {
-        todos = []
+    //let todos
+    let tasksStorage
+
+    if (localStorage.getItem("tasksStorage") === null) {
+        tasksStorage = {}
     }
     else {
-        todos = JSON.parse(localStorage.getItem("todos"))
+        tasksStorage = JSON.parse(localStorage.getItem("tasksStorage"))
     }
-    todos.push(todo)
-    localStorage.setItem("todos", JSON.stringify(todos))
+
+    if (!tasksStorage[todo.date]) {
+        tasksStorage[todo.date] = []
+    }
+
+    tasksStorage[todo.date].push(todo)
+    localStorage.setItem("tasksStorage", JSON.stringify(tasksStorage))
+
 }
 
 function removeTodoFromStorage(todo) {
-    let todos
-    if (localStorage.getItem("todos") === null) {
-        todos = []
+    let todos = [];
+    let todoIndex = 0;
+
+    if (localStorage.getItem("tasksStorage") === null) {
+        tasksStorage = {}
     }
     else {
-        todos = JSON.parse(localStorage.getItem("todos"))
+        tasksStorage = JSON.parse(localStorage.getItem("tasksStorage"))
     }
-    let todoIndex = 0;
+
+    todos = tasksStorage[currentDate.innerText]
     todos.forEach(todoObject => {
-        if (todoObject.date === currentDate.innerText && todo === todoObject.todo.text) {
+        if (todo === todoObject.todo.text) {
             todoIndex = todos.indexOf(todoObject)
         }
     });
     todos.splice(todoIndex, 1)
-    localStorage.setItem("todos", JSON.stringify(todos))
+    tasksStorage[currentDate.innerText] = todos;
+    if (todos.length == 0) {
+        delete tasksStorage[currentDate.innerText]
+    }
+    localStorage.setItem("tasksStorage", JSON.stringify(tasksStorage))
     removeCalendarEvent(currentDate.innerText)
 }
+
+
+function loadTodosFromStorage() {
+    if (localStorage.getItem("tasksStorage") === null) {
+        tasksStorage = {}
+    }
+    else {
+        tasksStorage = JSON.parse(localStorage.getItem("tasksStorage"))
+        setTodos(tasksStorage)
+    }
+}
+
+function setTodos(taskStorage) {
+    //Clear current todoList
+    todoList.textContent = ''
+    todos = taskStorage[currentDate.innerText]
+
+    if (todos) {
+        todos.forEach(todoObject => {
+            createToDo(todoObject.todo.text, todoObject.todo.completed)
+        })
+    }
+
+}
+
 
 function loadCurrentDate() {
     let date = new Date();
     currentDate.innerText = date.toISOString().substring(0, 10);
-}
-
-function loadTodosFromStorage() {
-    if (localStorage.getItem("todos") === null) {
-        todos = []
-    }
-    else {
-        todos = JSON.parse(localStorage.getItem("todos"))
-        setTodos(todos)
-    }
-}
-
-function setTodos(todos) {
-    //Clear current todoList
-    todoList.textContent = ''
-
-    todos.forEach(todo => {
-        if (todo.date == currentDate.innerText) {
-            //DIV
-            const todoDiv = document.createElement("div")
-            todoDiv.classList.add("todo-div")
-            //LI
-            const todoLi = document.createElement("li")
-            todoLi.classList.add("todo-item")
-            todoLi.innerText = todo.todo.text
-            if (todo.todo.completed) {
-                todoLi.classList.add("completed")
-            }
-            //COMPLETE BUTTON
-            const completeButton = document.createElement("Button")
-            completeButton.innerHTML = '<i class="fas fa-check"></i'
-            completeButton.classList.add("complete-button")
-            //DELETE BUTTON
-            const deleteButton = document.createElement("Button")
-            deleteButton.innerHTML = '<i class="fas fa-times"></i>'
-            deleteButton.classList.add("delete-button")
-            todoDiv.appendChild(todoLi)
-            todoDiv.appendChild(completeButton)
-            todoDiv.appendChild(deleteButton)
-            todoList.appendChild(todoDiv)
-            formInput.value = null
-        }
-    })
 }
 
 
@@ -178,8 +205,8 @@ function createCalendar() {
         initialView: 'dayGridMonth',
         dateClick: function (info) {
             loadDay(info),
-            currentDate.classList.toggle("date-animation")
-            currentDate.addEventListener('animationend', function(){
+                currentDate.classList.toggle("date-animation")
+            currentDate.addEventListener('animationend', function () {
                 currentDate.classList.remove("date-animation")
             })
         },
@@ -241,19 +268,19 @@ function loadEvents() {
     }
 }
 
-function showPrebuilt(event){
+function showPrebuilt(event) {
     event.preventDefault()
     preBuiltContainer.classList.toggle("showContainer")
 }
 
 
 //Navbar functions
-function toggleNavbar(){
+function toggleNavbar() {
     sideNavBar.classList.toggle("show-navbar")
-    sideNavBar.addEventListener('transitionend', function(){
+    sideNavBar.addEventListener('transitionend', function () {
         calendar.updateSize()
     })
-    
+
 }
 
 

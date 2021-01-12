@@ -52,53 +52,6 @@ button{
     display: flex;
 }
 
-/* .side-navbar{
-    position: fixed;
-    z-index: 100;
-    background-color: #4e4e4e;
-    transition: width 0.3s;
-    height: 100vh;
-    width: 5rem;
-    box-shadow: 2px 0 5px rgb(90, 90, 90);
-}
-
-.show-navbar{
-    width: 15rem
-}
-
-.navbar-list{
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-}
-
-.navbar-list li{
-   display: flex;
-   justify-content: center;
-   margin: 0;
-   width: 100%;
-}
-
-.navbar-list button{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 5rem;
-    width: 5rem;
-    background: none;
-    border: none;
-    box-shadow: none;
-    outline: none;
-}
-
-.navbar-list button:hover{
-    background-color: #bdbdbd;
-    cursor: pointer;
-}  */
-
-
 
 .main-container{
     flex: 1;
