@@ -4,6 +4,7 @@
   "description": "",
   "main": "script.js",
   "dependencies": {
+    "chart.js": "^2.9.4",
     "fullcalendar": "^5.4.0"
   },
   "devDependencies": {},

@@ -1,4 +1,5 @@
 //Selectors
+const tabChangeButton = document.querySelectorAll(".tab-change-button")
 const todoList = document.querySelector(".todo-list")
 const addButton = document.querySelector(".add-button")
 const showPrebuiltButton = document.querySelector(".show-prebuilt-button")
@@ -11,14 +12,22 @@ const addPreBuiltButtons = document.querySelectorAll(".add-prebuilt-task")
 //Calendar variable
 var calendar;
 
+//Chart variable
+var chartCtx;
+
 //Event Listernners
 
 //Called when page is loaded
 document.addEventListener("DOMContentLoaded", createCalendar)
 document.addEventListener("DOMContentLoaded", loadCurrentDate)
 document.addEventListener("DOMContentLoaded", loadTodosFromStorage)
+document.addEventListener("DOMContentLoaded", createChart)
+
 
 //Called when a button is clicked
+tabChangeButton.forEach(button => {
+    button.addEventListener('click', changeTab)
+})
 addButton.addEventListener('click', addTodo)
 showPrebuiltButton.addEventListener('click', showPrebuilt)
 addPreBuiltButtons.forEach(button => {
@@ -28,6 +37,27 @@ todoList.addEventListener('click', todoClick)
 
 
 //Functions
+
+function changeTab(event) {
+    event.preventDefault()
+    const rightContainer = document.querySelector(".right-container")
+    const rightContainerTabs = rightContainer.children
+
+    tabChangeButton.forEach(button => {
+        button.classList.remove("active")
+    })
+
+    for (let i = 1; i < rightContainerTabs.length; i++) {
+        if (rightContainerTabs[i].classList[0] === event.target.value) {
+            rightContainerTabs[i].style.display = "block"
+        }
+        else {
+            rightContainerTabs[i].style.display = "none"
+        }
+    }
+    event.target.classList.add("active")
+
+}
 
 
 function createToDo(todoText, completed) {
@@ -274,16 +304,35 @@ function showPrebuilt(event) {
 }
 
 
-//Navbar functions
-function toggleNavbar() {
-    sideNavBar.classList.toggle("show-navbar")
-    sideNavBar.addEventListener('transitionend', function () {
-        calendar.updateSize()
-    })
+function createChart() {
+    chartCtx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(chartCtx, {
+        // The type of chart we want to create
+        type: 'pie',
 
+        // The data for our dataset
+        data: {
+            datasets: [{
+                data: [10, 20, 30],
+
+                backgroundColor: [
+                    '#4dc9f6',
+                    '#f67019',
+                    '#f53794',
+                ]
+            }],
+            // These labels appear in the legend and in the tooltips when hovering different arcs
+            labels: [
+                'Red',
+                'Yellow',
+                'Blue'
+            ],
+        },
+
+        // Configuration options go here
+        options: {}
+    });
 }
-
-
 
 
 

@@ -19,63 +19,74 @@
     <div class="container">
         <div class="main-container">
             <div id='calendar' class="calendarDiv"></div>
-            <div class="todoContainer">
-                <h1 class="todo-header">To do list</h1>
-                <h1 class="current-date"></h1>
-                <form class="todo-form">
-                    <input type="text" class="form-input">
-                    <button type="submit" class="add-button">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                    <button type="submit" class="show-prebuilt-button">
-                        <i class="fas fa-arrow-down"></i>
-                    </button>
-                </form>
-                <div class="prebuilt-container">
-                    <ul>
-                        <li id="tasks-list-header">Pre-built tasks</li>
-                        <li>
-                            <span>Wani kani lessons</span>
-                            <button class="add-prebuilt-task">
-                                <i class="fas fa-plus"></i>
-                            </button>        
-                        </li>
-                        <li>
-                            <span>Progresso em um projeto web</span>
-                            <button class="add-prebuilt-task">
-                                <i class="fas fa-plus"></i>
-                            </button>  
-                        </li>
-                        <li>
-                            <span>Treinar digitação</span>
-                            <button class="add-prebuilt-task">
-                                <i class="fas fa-plus"></i>
-                            </button>  
-                        </li>
-                        <li>
-                            <span>Treinar exercícios de programação no hackerrank</span>
-                            <button class="add-prebuilt-task">
-                                <i class="fas fa-plus"></i>
-                            </button>  
-                        </li>
-                        <li>
-                            <span>Progresso no curso de desenvolvimento web</span>
-                            <button class="add-prebuilt-task">
-                                <i class="fas fa-plus"></i>
-                            </button>  
-                        </li>
-                    </ul>
+            <div class="right-container">
+                <div class="tab-buttons">
+                    <button class="tab-change-button" value="todo-container">Daily tasks</button>
+                    <button class="tab-change-button" value="statistics">Statistics</button>
                 </div>
-                <div class="list-container">
-                    <ul class="todo-list">
-                    </ul>
+                <div class="todo-container">
+                    <h1 class="todo-header">To do list</h1>
+                    <h1 class="current-date"></h1>
+                    <form class="todo-form">
+                        <input type="text" class="form-input">
+                        <button type="submit" class="add-button">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button type="submit" class="show-prebuilt-button">
+                            <i class="fas fa-arrow-down"></i>
+                        </button>
+                    </form>
+                    <div class="prebuilt-container">
+                        <ul>
+                            <li id="tasks-list-header">Pre-built tasks</li>
+                            <li>
+                                <span>Wani kani lessons</span>
+                                <button class="add-prebuilt-task">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </li>
+                            <li>
+                                <span>Progresso em um projeto web</span>
+                                <button class="add-prebuilt-task">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </li>
+                            <li>
+                                <span>Treinar digitação</span>
+                                <button class="add-prebuilt-task">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </li>
+                            <li>
+                                <span>Treinar exercícios de programação no hackerrank</span>
+                                <button class="add-prebuilt-task">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </li>
+                            <li>
+                                <span>Progresso no curso de desenvolvimento web</span>
+                                <button class="add-prebuilt-task">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="list-container">
+                        <ul class="todo-list">
+                        </ul>
+                    </div>
                 </div>
+                <div class="statistics">
+                    <canvas id="myChart"></canvas>
+                </div>
+
             </div>
         </div>
     </div>
     <script src='../node_modules/fullcalendar/main.js'></script>
+    <script src="../node_modules/chart.js/dist/Chart.js"></script>
     <script src="script.js"></script>
-    
+
 </body>
 
 </html>
