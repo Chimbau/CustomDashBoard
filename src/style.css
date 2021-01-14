@@ -76,6 +76,8 @@ button{
 
 .tab-buttons{
     display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
 }
 
 .tab-change-button{
@@ -138,22 +140,47 @@ button{
     background-color: rgb(102, 166, 226);
 }
 
+.show-prebuilt-button i{
+    transition: 0.2s;
+}
+ 
+.rotate-animation{
+     transform: rotate(180deg);
+ }
+
 .prebuilt-container{
     background-color:#4d5899;
     margin: auto;
     width: 60%;
     height: 0;
     transition: 0.3s;
-    border-radius: 0 0 2% 2%;
+    /* border-radius: 0 0 2% 2%; */
+    overflow: visible;
 }
 
 .prebuilt-container ul{
     list-style: none;
     color: white;
     display: none;
-    overflow: hidden;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
+.prebuilt-container ul::-webkit-scrollbar {
+    width: 6px;
+}
+
+.prebuilt-container ul::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+.prebuilt-container ul::-webkit-scrollbar-thumb{
+    background:#131a3f;
+}
+
+.prebuilt-container ul::-webkit-scrollbar-thumb:hover{
+    background: #415979; 
+}
 
 .prebuilt-container li{
     display: flex;
@@ -184,6 +211,21 @@ button{
     justify-content: center;
     border-style: solid;
     border-width: 0 0 1px 0;
+}
+
+.pre-built-form{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.pre-built-form input{
+    flex: 1; 
+    outline: none;
+}
+
+.pre-built-form button{
+    background-color: #131a3f;
 }
 
 .showContainer{
@@ -254,21 +296,30 @@ button{
 }
 
 .statistics{
-    margin-top: 50px;
+    margin: 50px auto;
     display: none;
+    position: relative;
+    width: 90%;
+    min-width: 500px;
+}
+
+.current-selected-dates{
+    font-size: 1.5rem;
+    margin: 20px 0;
+    margin-bottom: 50px;
 }
 
 .fa-times, .fa-check, .fa-plus{
     pointer-events: none;
 }
 
-@media(max-width : 960px){
+@media(max-width : 1100px){
     .main-container{
         flex-direction: column;
     }
 
     .right-container{
-        margin: 100px 0 200px 0;
+        margin: 100px 0 150px 0;
     }
 }
     

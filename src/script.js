@@ -7,13 +7,17 @@ const preBuiltContainer = document.querySelector(".prebuilt-container")
 const sideNavBar = document.querySelector(".side-navbar")
 const formInput = document.querySelector(".form-input")
 const currentDate = document.querySelector(".current-date")
+const currentStatisticsDates = document.querySelector(".current-selected-dates")
 const addPreBuiltButtons = document.querySelectorAll(".add-prebuilt-task")
+const preBuiltInput = document.querySelector(".pre-built-input")
+const preBuiltAddButton = document.querySelector(".pre-built-add-button")
 
 //Calendar variable
 var calendar;
 
-//Chart variable
+//Chart variables
 var chartCtx;
+var globalChart;
 
 //Event Listernners
 
@@ -21,6 +25,7 @@ var chartCtx;
 document.addEventListener("DOMContentLoaded", createCalendar)
 document.addEventListener("DOMContentLoaded", loadCurrentDate)
 document.addEventListener("DOMContentLoaded", loadTodosFromStorage)
+document.addEventListener("DOMContentLoaded", loadPreBuiltTasks)
 document.addEventListener("DOMContentLoaded", createChart)
 
 
@@ -34,7 +39,7 @@ addPreBuiltButtons.forEach(button => {
     button.addEventListener('click', addTodo)
 })
 todoList.addEventListener('click', todoClick)
-
+preBuiltAddButton.addEventListener('click', addPreBuiltTask)
 
 //Functions
 
@@ -73,7 +78,7 @@ function createToDo(todoText, completed) {
     }
     //COMPLETE BUTTON
     const completeButton = document.createElement("Button")
-    completeButton.innerHTML = '<i class="fas fa-check"></i'
+    completeButton.innerHTML = '<i class="fas fa-check"></i>'
     completeButton.classList.add("complete-button")
     //DELETE BUTTON
     const deleteButton = document.createElement("Button")
@@ -222,6 +227,64 @@ function setTodos(taskStorage) {
 
 }
 
+//Pre-built tasks
+
+function addPreBuiltTask(event) {
+    event.preventDefault()
+    let task = createPreBuiltTask(preBuiltInput.value)
+    preBuiltInput.value = ""
+    savePreBuiltTask(task)
+}
+
+function createPreBuiltTask(taskText) {
+    //LI
+    const itemList = document.createElement("li")
+
+    //SPAN
+    const itemLabel = document.createElement("span")
+    itemLabel.innerText = taskText
+
+    //ADD BUTTON
+    const addTaskButton = document.createElement("button")
+    addTaskButton.classList.add("add-prebuilt-task")
+    addTaskButton.innerHTML = '<i class="fas fa-plus"></i>'
+    addTaskButton.addEventListener('click', addTodo)
+
+    //APPEND TO LIST
+    const list = document.querySelector(".pre-built-list")
+    itemList.appendChild(itemLabel)
+    itemList.appendChild(addTaskButton)
+    list.appendChild(itemList)
+
+    return itemLabel.innerText
+}
+
+function savePreBuiltTask(task) {
+    let preBuiltTasksStorage
+
+    if (localStorage.getItem("preBuiltTasksStorage") === null) {
+        preBuiltTasksStorage = {}
+    }
+    else {
+        preBuiltTasksStorage = JSON.parse(localStorage.getItem("preBuiltTasksStorage"))
+    }
+    let randomColor = Math.floor(Math.random()*16777215).toString(16)
+    preBuiltTasksStorage[task] = '#' + randomColor
+    localStorage.setItem("preBuiltTasksStorage", JSON.stringify(preBuiltTasksStorage))
+}
+
+function loadPreBuiltTasks() {
+    if (localStorage.getItem("preBuiltTasksStorage") === null) {
+        preBuiltTasksStorage = {}
+    }
+    else {
+        preBuiltTasksStorage = JSON.parse(localStorage.getItem("preBuiltTasksStorage"))
+    }
+    Object.keys(preBuiltTasksStorage).forEach(task => {
+        createPreBuiltTask(task)
+    })
+}
+
 
 function loadCurrentDate() {
     let date = new Date();
@@ -240,6 +303,24 @@ function createCalendar() {
                 currentDate.classList.remove("date-animation")
             })
         },
+        select: function (info) {
+            //Get selected dates
+            currentStatisticsDates.innerText = `${info.startStr.substring(0, 10)} \u00A0 to \u00A0 ${info.endStr.substring(0, 10)}`
+            currentStatisticsDates.classList.toggle("date-animation")
+            currentStatisticsDates.addEventListener('animationend', function () {
+                currentStatisticsDates.classList.remove("date-animation")
+            })
+            let selectedDates = []
+            let dateStart = info.start
+            let dayDifference = (info.end.getTime() - info.start.getTime()) / (1000 * 3600 * 24)
+            for (let i = 0; i < dayDifference; i++) {
+                dateString = dateStart.toISOString().substring(0, 10)
+                selectedDates.push(dateString)
+                dateStart.setDate(dateStart.getDate() + 1);
+            }
+
+            loadChartDataSet(selectedDates)
+        },
         selectable: true,
         unselectAuto: false
     });
@@ -256,7 +337,6 @@ function loadDay(dateInfo) {
 function addCalendarEvent(date) {
     calendar.addEvent({
         id: date,
-        title: `Tarefas`,
         start: date,
         display: 'background',
         backgroundColor: 'green'
@@ -301,36 +381,79 @@ function loadEvents() {
 function showPrebuilt(event) {
     event.preventDefault()
     preBuiltContainer.classList.toggle("showContainer")
+    showPrebuiltButton.firstElementChild.classList.toggle("rotate-animation")
+}
+
+function loadChartDataSet(selectedDates) {
+    const tasksStorage = JSON.parse(localStorage.getItem("tasksStorage"))
+    const preBuilt = JSON.parse(localStorage.getItem("preBuiltTasksStorage")) || {}
+    let dataSet = {}
+    let colors = []
+    selectedDates.forEach(date => {
+        if (tasksStorage[date]) {
+            tasksStorage[date].forEach(task => {
+                let taskText = task.todo.text
+                if (preBuilt[taskText]) {
+                    if (!dataSet[taskText]) {
+                        dataSet[taskText] = 1
+                    }
+                    else {
+                        dataSet[taskText]++
+                    }
+                }
+                else{
+                    if(!dataSet["Others"]){
+                        dataSet["Others"] = 1
+                    }
+                    else{
+                        dataSet["Others"]++
+                    }
+                    
+                }
+
+            })
+        }
+    })
+ 
+    Object.keys(preBuilt).forEach(key => {
+        if(dataSet[key]){
+            colors.push(preBuilt[key])
+        }
+    })
+  
+    globalChart.data.datasets[0].data = Object.values(dataSet)
+    globalChart.data.labels = Object.keys(dataSet)
+    globalChart.data.datasets[0].backgroundColor = colors
+    globalChart.update()
 }
 
 
 function createChart() {
     chartCtx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(chartCtx, {
+    globalChart = new Chart(chartCtx, {
         // The type of chart we want to create
         type: 'pie',
 
         // The data for our dataset
         data: {
             datasets: [{
-                data: [10, 20, 30],
+                data: [],
 
-                backgroundColor: [
-                    '#4dc9f6',
-                    '#f67019',
-                    '#f53794',
-                ]
+                backgroundColor: []
             }],
             // These labels appear in the legend and in the tooltips when hovering different arcs
-            labels: [
-                'Red',
-                'Yellow',
-                'Blue'
-            ],
         },
 
         // Configuration options go here
-        options: {}
+        options: {
+            legend: {
+                labels: {
+                    fontColor: "white",
+                    fontSize: 14
+                }
+            },
+            cutoutPercentage: 40
+        }
     });
 }
 

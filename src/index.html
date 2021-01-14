@@ -37,9 +37,17 @@
                         </button>
                     </form>
                     <div class="prebuilt-container">
-                        <ul>
+                       
+                        
+                        <ul class="pre-built-list">
                             <li id="tasks-list-header">Pre-built tasks</li>
                             <li>
+                                <form action="submit" class="pre-built-form">
+                                    <input type="text" class="pre-built-input">
+                                    <button type="submit" class="pre-built-add-button">Add</button>
+                                </form>
+                            </li>
+                            <!-- <li>
                                 <span>Wani kani lessons</span>
                                 <button class="add-prebuilt-task">
                                     <i class="fas fa-plus"></i>
@@ -69,6 +77,12 @@
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </li>
+                            <li>
+                                <span>Progresso no curso de desenvolvimento web</span>
+                                <button class="add-prebuilt-task">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </li> -->
                         </ul>
                     </div>
                     <div class="list-container">
@@ -77,8 +91,13 @@
                     </div>
                 </div>
                 <div class="statistics">
-                    <canvas id="myChart"></canvas>
+                    <h1>Task statistics</h1>
+                    <h1 class="current-selected-dates">Select a date interval</h1>
+                    <div>
+                        <canvas id="myChart"></canvas>
+                    </div>
                 </div>
+               
 
             </div>
         </div>
