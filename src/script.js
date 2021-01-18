@@ -11,6 +11,7 @@ const currentStatisticsDates = document.querySelector(".current-selected-dates")
 const addPreBuiltButtons = document.querySelectorAll(".add-prebuilt-task")
 const preBuiltInput = document.querySelector(".pre-built-input")
 const preBuiltAddButton = document.querySelector(".pre-built-add-button")
+const themeCheckBox = document.querySelector(".onoffswitch-checkbox")
 
 //Calendar variable
 var calendar;
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", loadPreBuiltTasks)
 document.addEventListener("DOMContentLoaded", createChart)
 
 
+
 //Called when a button is clicked
 tabChangeButton.forEach(button => {
     button.addEventListener('click', changeTab)
@@ -40,6 +42,7 @@ addPreBuiltButtons.forEach(button => {
 })
 todoList.addEventListener('click', todoClick)
 preBuiltAddButton.addEventListener('click', addPreBuiltTask)
+document.addEventListener('click', changeTheme)
 
 //Functions
 
@@ -62,6 +65,12 @@ function changeTab(event) {
     }
     event.target.classList.add("active")
 
+}
+
+function changeTheme(){
+    if(themeCheckBox.checked){
+        
+    }
 }
 
 

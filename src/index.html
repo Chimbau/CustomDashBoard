@@ -9,16 +9,22 @@
         crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link href='../node_modules/fullcalendar/main.css' rel='stylesheet' />
+    <link href="./switch.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="header">
         <i class="fas fa-clipboard-list"></i>
         <h1>Depressed Dashboard</h1>
+        <div class="onoffswitch change-theme-container">
+            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0">
+            <label class="onoffswitch-label" for="myonoffswitch"></label>
+        </div>
     </div>
     <div class="container">
         <div class="main-container">
             <div id='calendar' class="calendarDiv"></div>
+
             <div class="right-container">
                 <div class="tab-buttons">
                     <button class="tab-change-button" value="todo-container">Daily tasks</button>
@@ -37,8 +43,8 @@
                         </button>
                     </form>
                     <div class="prebuilt-container">
-                       
-                        
+
+
                         <ul class="pre-built-list">
                             <li id="tasks-list-header">Pre-built tasks</li>
                             <li>
@@ -47,42 +53,6 @@
                                     <button type="submit" class="pre-built-add-button">Add</button>
                                 </form>
                             </li>
-                            <!-- <li>
-                                <span>Wani kani lessons</span>
-                                <button class="add-prebuilt-task">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </li>
-                            <li>
-                                <span>Progresso em um projeto web</span>
-                                <button class="add-prebuilt-task">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </li>
-                            <li>
-                                <span>Treinar digitação</span>
-                                <button class="add-prebuilt-task">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </li>
-                            <li>
-                                <span>Treinar exercícios de programação no hackerrank</span>
-                                <button class="add-prebuilt-task">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </li>
-                            <li>
-                                <span>Progresso no curso de desenvolvimento web</span>
-                                <button class="add-prebuilt-task">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </li>
-                            <li>
-                                <span>Progresso no curso de desenvolvimento web</span>
-                                <button class="add-prebuilt-task">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </li> -->
                         </ul>
                     </div>
                     <div class="list-container">
@@ -97,7 +67,7 @@
                         <canvas id="myChart"></canvas>
                     </div>
                 </div>
-               
+
 
             </div>
         </div>

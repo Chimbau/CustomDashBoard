@@ -5,6 +5,7 @@
   "main": "script.js",
   "dependencies": {
     "chart.js": "^2.9.4",
+    "css-toggle-switch": "^4.1.0",
     "fullcalendar": "^5.4.0"
   },
   "devDependencies": {},
