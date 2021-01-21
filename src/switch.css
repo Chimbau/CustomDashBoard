@@ -23,7 +23,7 @@
     box-shadow: 0 6px 12px 0px #757575;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label {
-    background-color: #DBEFFF;
+    background-color: #ffffff;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {
    border-color: #DBEFFF;
@@ -33,6 +33,6 @@
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label:before {
     right: 0px; 
-    background-color: #FFFFFF; 
+    background-color: #838383; 
     box-shadow: 3px 6px 18px 0px rgba(0, 0, 0, 0.2);
 }

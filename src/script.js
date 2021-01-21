@@ -12,6 +12,7 @@ const addPreBuiltButtons = document.querySelectorAll(".add-prebuilt-task")
 const preBuiltInput = document.querySelector(".pre-built-input")
 const preBuiltAddButton = document.querySelector(".pre-built-add-button")
 const themeCheckBox = document.querySelector(".onoffswitch-checkbox")
+const root = document.documentElement;
 
 //Calendar variable
 var calendar;
@@ -42,7 +43,7 @@ addPreBuiltButtons.forEach(button => {
 })
 todoList.addEventListener('click', todoClick)
 preBuiltAddButton.addEventListener('click', addPreBuiltTask)
-document.addEventListener('click', changeTheme)
+themeCheckBox.addEventListener('change', changeTheme)
 
 //Functions
 
@@ -69,8 +70,20 @@ function changeTab(event) {
 
 function changeTheme(){
     if(themeCheckBox.checked){
-        
+        //Dark Theme
+        root.style.setProperty('--background', 'linear-gradient(90deg, #1d2429 0%, #1d2429 100%)')
+        root.style.setProperty('--shadow-color', '#d6d6d6')
+        root.style.setProperty('--second-color', '#4c5861')
+        root.style.setProperty('--task-buttons', '#2e2f36')
     }
+    else{ 
+        //Blue Theme
+        root.style.setProperty('--background', 'linear-gradient(90deg, #8BC6EC 0%, #5a60cc 100%)')
+        root.style.setProperty('--shadow-color', '#525252')
+        root.style.setProperty('--second-color', '#4d5899')
+        root.style.setProperty('--task-buttons', '#2a3366')
+    }
+    
 }
 
 

@@ -1,9 +1,10 @@
 :root{
-    --background-blue : linear-gradient(90deg, #8BC6EC 0%, #5a60cc 100%);
-    --background-grey : rgb(87, 175, 175);
-    --dark-blue : #4d5899;
+    --background : linear-gradient(90deg, #8BC6EC 0%, #5a60cc 100%);
+    --second-color : #4d5899;
+    --third-color : #4d5899;
     --font-color: rgb(255, 255, 255);
-    --task-buttons : rgb(0, 71, 151);
+    --task-buttons : #2a3366;
+    --shadow-color  : #525252;
 }
 
 * {
@@ -15,8 +16,7 @@
 }
 
 body{
-    background-color: #8BC6EC;
-    background-image: var(--background-blue);
+    background-image: var(--background);
     min-height: 100vh;
 }
 
@@ -36,9 +36,9 @@ button{
 .header{
     display: flex;
     align-items: center;
-    background-color: var(--dark-blue);
+    background-color: var(--second-color);
     padding: 1.2rem 0;
-    box-shadow: 0px 1px 5px rgb(82, 82, 82);
+    box-shadow: 0px 1px 20px var(--shadow-color);
     border-style: solid;
     border-width: 0px 0px 1px 0px;
     border-color: rgb(72, 73, 102);
@@ -91,25 +91,25 @@ button{
 .tab-buttons{
     display: flex;
     justify-content: center;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
 }
 
 .tab-change-button{
     width: 160px;
     height: 50px;
     padding: 5px;
-    background-color: var(--dark-blue);
+    background-color: var(--second-color);
     color: white;
     text-shadow: 1px 1px #000000;
 }
 
 .tab-change-button:hover{
     cursor: pointer;
-    background-color: #4c5bad;
+    background-color: var(--task-buttons);
 }
 
 .tab-change-button.active{
-    background-color: #313a6e;
+    background-color: var(--task-buttons);
     border : 1px solid white;
 }
 
@@ -145,7 +145,7 @@ button{
 .add-button, .show-prebuilt-button{
     padding: 10px;
     font-size: 20px;
-    background-color: var(--dark-blue);
+    background-color: var(--second-color);
     cursor: pointer;
     color: white;
 }
@@ -163,7 +163,7 @@ button{
  }
 
 .prebuilt-container{
-    background-color: var(--dark-blue);
+    background-color: var(--second-color);
     margin: auto;
     width: 60%;
     height: 0;
@@ -189,7 +189,7 @@ button{
 }
 
 .prebuilt-container ul::-webkit-scrollbar-thumb{
-    background:#131a3f;
+    background: var(--background);
 }
 
 .prebuilt-container ul::-webkit-scrollbar-thumb:hover{
@@ -213,14 +213,9 @@ button{
     color: white;
 }
 
-.prebuilt-container button:hover{
-    color : rgb(0, 190, 204);
-    cursor: pointer;
-}
-
 #tasks-list-header{
     text-shadow: 1px 1px #000000;
-    background-color: #2a3364;
+    background-color: var(--task-buttons);
     font-size: 1.2rem;
     justify-content: center;
     border-style: solid;
@@ -239,7 +234,12 @@ button{
 }
 
 .pre-built-form button{
-    background-color: #131a3f;
+    background-color: var(--task-buttons);
+}
+
+.pre-built-form button:hover{
+    background-color: var(--second-color);
+    cursor: pointer;
 }
 
 .showContainer{
